@@ -4,6 +4,7 @@ import styles from "./Form.module.css";
 import { formatDate } from "./CityItem";
 
 import Button from "./Button.jsx";
+import BackButton from "./BackButton.jsx";
 
 export function convertToEmoji(countryCode) {
     const codePoints = countryCode
@@ -47,7 +48,7 @@ export default function Form() {
 
             <div className={styles.buttons}>
                 <Button type="primary">Add</Button>
-                <Button type="back" onClick={() => navigate(-1)}>&larr; Back</Button>
+                <BackButton />
             </div>
         </form>
     )
