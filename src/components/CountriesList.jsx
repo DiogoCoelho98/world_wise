@@ -1,12 +1,14 @@
 import Spinner from "./Spinner.jsx";
 import CountryItem from "./CountryItem.jsx";
 import Message from "./Message.jsx";
+import { useCities } from "../contexts/CitiesContext.jsx";
 
 import styles from "./CountriesList.module.css";
 
-export default function CountriesList({cities, loading}) {
+export default function CountriesList() {
+    const { cities, loading } = useCities();
+
     if (loading) return <Spinner />;
-    
     if (cities.length === 0) return <Message message={"Add your first city by clicking on a city on the map"}/>;
 
      const countries = cities.reduce((acc, cur) => {
