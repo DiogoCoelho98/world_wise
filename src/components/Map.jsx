@@ -4,24 +4,23 @@ import { MapContainer,TileLayer, Marker, Popup, useMap, useMapEvent } from "reac
 import { useState, useEffect } from "react";
 import { useCities } from "../contexts/CitiesContext.jsx";
 import { useGeolocation } from "../hooks/useGeolocation.js";
+import { useURLGeoposition } from "../hooks/useURLGeoposition.js";
 
 import Button from "../components/Button.jsx";
 
 export default function Map() {
-    const [searchParams] = useSearchParams();
     const [mapPosition, setMapPosition] = useState([39.97899046830462, -3.7475582957267766]);
-
-    const lat = searchParams.get("lat");
-    const lng = searchParams.get("lng");
 
     const {cities} = useCities();
     const {isLoading: loadingPosition, position: geoPosition, getPosition} = useGeolocation();
+    const [lat, lng] = useURLGeoposition();
     
-    // Store the values of lat/lng from the last city viewed -> Fix point when the user moves from city to city on the map 
+    // Store the values of lat/lng from the last city clicked 
     useEffect(() => {
         if (lat && lng) setMapPosition([lat, lng]);
     }, [lat, lng])
 
+    // Centering the map with geolocation
     useEffect(() => {
         if (geoPosition) setMapPosition([geoPosition.lat, geoPosition.lng]);
     }, [geoPosition])

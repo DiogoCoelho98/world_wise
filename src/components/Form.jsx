@@ -1,10 +1,13 @@
-import {useState} from "react";
-import {useNavigate} from "react-router-dom";
 import styles from "./Form.module.css";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { formatDate } from "./CityItem";
+import { useURLGeoposition } from "../hooks/useURLGeoposition.js";
 
 import Button from "./Button.jsx";
 import BackButton from "./BackButton.jsx";
+import Message from "./Message.jsx";
+import Spinner from "./Spinner.jsx";
 
 export function convertToEmoji(countryCode) {
     const codePoints = countryCode
@@ -12,14 +15,49 @@ export function convertToEmoji(countryCode) {
       .split("")
       .map((char) => 127397 + char.charCodeAt());
     return String.fromCodePoint(...codePoints);
-  } 
+  }
 
 export default function Form() {
-    const navigate = useNavigate();
-
     const [cityName, setCityName] = useState("");
+    const [countryName, setCountryName] = useState("");
+    const [emoji, setEmoji] = useState("");
     const [date, setDate] = useState(new Date());
     const [notes, setNotes] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const navigate = useNavigate();
+
+    const [lat, lng] = useURLGeoposition();
+    
+    // Get city name with lat/lng
+    useEffect(() => {
+        async function getCity() {  
+            try {
+                setLoading(true);
+                setError("");
+
+                    const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`);
+                    if (!res.ok) throw new Error("Error while fetching data");
+                    
+                    const data = await res.json();
+                    if (!data.countryCode) throw new Error("That doesn't seem to be a city. Click somewhere else");
+
+                    setCityName(data.city || data.locality);
+                    setCountryName(data.countryName);
+                    setEmoji(convertToEmoji(data.countryCode));
+                }
+                catch(err) {
+                    setError(err.message);
+                } finally {
+                    setLoading(false);
+                }
+        }
+        getCity();
+    }, [lat, lng]);
+
+    if (loading) return <Spinner />
+    if (error) return <Message message={error}/>
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -34,6 +72,7 @@ export default function Form() {
             <div className={styles.row}>
                 <label htmlFor="cityName">City Name</label>
                 <input type="text" id="cityName" onChange={e => setCityName(e.target.value)} value={cityName}/>
+                <span className={styles.flag}>{emoji}</span>
             </div>
 
             <div className={styles.row}>
