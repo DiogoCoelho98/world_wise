@@ -4,6 +4,11 @@ import Button from "./Button";
 export default function BackButton() {
     const navigate = useNavigate();
 
-    return <Button type="back" onClick={() => navigate(-1)}>&larr; Back</Button>
+    function handleClick(e) {
+        e.preventDefault();
+        navigate(-1);
+    }
+
+    return <Button type="back" onClick={handleClick}>&larr; Back</Button>
 
 }

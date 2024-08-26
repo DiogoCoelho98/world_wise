@@ -1,17 +1,18 @@
 import { createContext, useState, useEffect, useContext } from "react";
 
 const BASE_URL = "http://localhost:8000";
+
 const CitiesContext = createContext();
 
  function CitiesProvider({ children }) {
   const [cities, setCities] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [currentCity, setCurrentCity] = useState({});
 
   useEffect(() => {
     async function getData() {
-      setLoading(true);
+      setIsLoading(true);
       setError(null);
       
       try {
@@ -25,7 +26,7 @@ const CitiesContext = createContext();
       } catch(err) {
         setError(err.message);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     }
     getData();
@@ -33,7 +34,7 @@ const CitiesContext = createContext();
 
   async function getCity(id) {
     try {
-        setLoading(true);
+        setIsLoading(true);
         setError(null);
 
         const res = await fetch(`${BASE_URL}/cities/${id}`);
@@ -46,12 +47,32 @@ const CitiesContext = createContext();
      } catch(err) {
         setError(err.message)
      } finally {
-        setLoading(false)
+        setIsLoading(false)
      }
     }
 
+    async function createCity(newCity) {
+      try {
+          setIsLoading(true);
+          setError(null);
+
+          // Adding a city to the fake API
+          const res = await fetch(`${BASE_URL}/cities`, {method: "POST", body: JSON.stringify(newCity), headers: {"Content-Type": "application/json"}});
+          if (!res.ok) throw new Error("Error fetching data");
+          
+          const data = await res.json();
+          if (!data || data.length === 0) throw new Error("No city available, choose another one");
+
+          setCities(cities => [...cities, data]);
+       } catch(err) {
+          setError(err.message)
+       } finally {
+          setIsLoading(false)
+       }
+      }
+
   return(
-        <CitiesContext.Provider value={{cities, loading, currentCity, getCity}}>{children}</CitiesContext.Provider>    
+        <CitiesContext.Provider value={{cities, isLoading, currentCity, getCity, createCity}}>{children}</CitiesContext.Provider>    
   )
 }
 
@@ -61,4 +82,4 @@ function useCities() {
     return context;
 }
 
-export { CitiesProvider, useCities }
+export { CitiesProvider, useCities}
