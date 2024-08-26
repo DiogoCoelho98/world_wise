@@ -37,63 +37,15 @@
       "id": "98443197"
     },
     {
-      "id": "8165",
-      "cityName": "Maia",
-      "country": "Portugal",
-      "emoji": "🇵🇹",
-      "date": "2024-08-26T15:16:02.246Z",
-      "notes": "Test loading",
+      "id": "2a11",
+      "cityName": "Wincrange",
+      "country": "Luxembourg",
+      "emoji": "🇱🇺",
+      "date": "2024-08-26T17:34:35.217Z",
+      "notes": "asdsa",
       "position": {
-        "lat": "41.22824901518532",
-        "lng": "-8.635253906250002"
-      }
-    },
-    {
-      "id": "75f3",
-      "cityName": "Zurgena",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2024-08-26T15:16:26.024Z",
-      "notes": "Test loading",
-      "position": {
-        "lat": "37.35269280367274",
-        "lng": "-2.0214843750000004"
-      }
-    },
-    {
-      "id": "5d2d",
-      "cityName": "Cabezabellosa",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2024-08-26T15:17:09.846Z",
-      "notes": "dadas",
-      "position": {
-        "lat": "40.111688665595956",
-        "lng": "-6.020507812500001"
-      }
-    },
-    {
-      "id": "a20e",
-      "cityName": "Lalueza",
-      "country": "Spain",
-      "emoji": "🇪🇸",
-      "date": "2024-08-26T15:19:11.807Z",
-      "notes": "Please work bitch",
-      "position": {
-        "lat": "41.82045509614034",
-        "lng": "-0.21972656250000003"
-      }
-    },
-    {
-      "id": "ebf5",
-      "cityName": "Durban",
-      "country": "France",
-      "emoji": "🇫🇷",
-      "date": "2024-08-26T15:24:03.574Z",
-      "notes": "test programmatic navigation",
-      "position": {
-        "lat": "43.54854811091288",
-        "lng": "0.5932617187500001"
+        "lat": "50.00773901463687",
+        "lng": "5.844726562500001"
       }
     }
   ]

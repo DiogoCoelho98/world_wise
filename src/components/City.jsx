@@ -16,7 +16,7 @@ const formatDate = (date) =>
 
 export default function City() {
     const {id} = useParams();
-    const {getCity, currentCity, loading} = useCities();
+    const {getCity, currentCity, isLoading} = useCities();
    
   useEffect(() => {
     getCity(id);
@@ -24,7 +24,7 @@ export default function City() {
 
   const { cityName, emoji, date, notes } = currentCity;
 
-  if (loading) return <Spinner />
+  if (isLoading) return <Spinner />
 
 
   return (
