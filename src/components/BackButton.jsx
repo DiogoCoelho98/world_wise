@@ -9,6 +9,8 @@ export default function BackButton() {
         navigate(-1);
     }
 
-    return <Button type="back" onClick={handleClick}>&larr; Back</Button>
+    return <Button type="back" onClick={handleClick}>
+            &larr; Back
+        </Button>
 
 }

@@ -6,10 +6,14 @@ const styles = {
     fontWeight: "600"
 }
 
-export default function Message({message}) {
+export default function Message({ message }) {
     return (
         <p style={styles}>
-        <span role="img">👋</span><br/> {message}
-      </p>
+            <span role="img">
+                👋
+            </span>
+            <br/> 
+            {message}
+        </p>
     );
 }

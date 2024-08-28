@@ -15,15 +15,15 @@ export default function Login() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Replace overwrites the path
-        if (isAuthenticated) navigate("/app", { replace: true });
+        // Replace key overwrites the path
+        if (isAuthenticated) navigate("/app", {replace: true});
     }, [navigate, isAuthenticated])
 
 
     function handleSubmit(e) {
         e.preventDefault();
 
-        if (email && password) login(email,password);
+        if (email && password) login(email, password);
 
         setEmail("");
         setPassword("");
@@ -36,18 +36,28 @@ export default function Login() {
             <form className={styles.form} onSubmit={handleSubmit}>
                 <div className={styles.row}>
                     <label htmlFor="email">Email address</label>
-                    <input type="email" name="email" id="email" onChange={e => setEmail(e.target.value)} value={email}/>
-                </div>
-                <div className={styles.row}>
-                    <label htmlFor="password">Password</label>
-                    <input type="password" name="password" id="password" onChange={e => setPassword(e.target.value)} 
-                    value={password}
+                    <input 
+                        type="email" 
+                        name="email" 
+                        id="email" 
+                        onChange={e => setEmail(e.target.value)} 
+                        value={email}
                     />
                 </div>
+                
+                <div className={styles.row}>
+                    <label htmlFor="password">Password</label>
+                    <input 
+                        type="password" 
+                        name="password" 
+                        id="password" 
+                        onChange={e => setPassword(e.target.value)} 
+                        value={password}
+                    />
+                </div>
+
                 <div>
-                    <Button type="primary">
-                        Login
-                    </Button>
+                    <Button type="primary">Login</Button>
                 </div>
             </form>
         </main>

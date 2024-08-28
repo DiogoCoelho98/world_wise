@@ -31,9 +31,9 @@ export default function Form() {
 
     const navigate = useNavigate();
 
-    const [lat, lng] = useURLGeoposition();
+    const [ lat, lng ] = useURLGeoposition();
 
-    const {createCity, isLoading} = useCities();
+    const { createCity, isLoading } = useCities();
     
     // Get city name with lat/lng
     useEffect(() => {
@@ -81,6 +81,7 @@ export default function Form() {
             }
         };
 
+        // Ensure that createCity() runs and then navigate
         await createCity(newCity);
         navigate("/app/cities");
 
@@ -93,23 +94,42 @@ export default function Form() {
     if (error) return <Message message={error}/>
 
     return(
-        <form className={`${styles.form} ${isLoading ? styles.loading: ""}`} onSubmit={handleSubmit}>
+        <form className={`${styles.form} 
+        ${isLoading ? styles.loading: ""}`} 
+        onSubmit={handleSubmit}
+        >
             <div className={styles.row}>
                 <label htmlFor="cityName">City Name</label>
-                <input type="text" id="cityName" onChange={e => setCityName(e.target.value)} value={cityName} disabled/>
+                <input type="text" id="cityName" 
+                onChange={e => setCityName(e.target.value)} 
+                value={cityName} 
+                disabled
+            />
                 <span className={styles.flag}>{emoji}</span>
             </div>
 
             <div className={styles.row}>
-                <label htmlFor="date">When did you go to the city?</label>
-                <DatePicker selected={date} onChange={date => setDate(date)} dateFormat="dd/MM/yyyy" id="date"/>
-
+                <label htmlFor="date">
+                    When did you go to the city?
+                </label>
+                <DatePicker 
+                    selected={date} 
+                    onChange={date => setDate(date)} 
+                    dateFormat="dd/MM/yyyy" 
+                    id="date"
+                />
             </div>
 
 
             <div className={styles.row}>
-                <label htmlFor="notes">Notes about your trip to</label>
-                <input type="text" id="notes" onChange={e => setNotes(e.target.value)} value={notes} required/>
+                <label htmlFor="notes">
+                    Notes about your trip to
+                </label>
+                <input type="text" id="notes" 
+                onChange={e => setNotes(e.target.value)} 
+                value={notes} 
+                required
+            />
             </div>
 
             <div className={styles.buttons}>

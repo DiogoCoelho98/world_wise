@@ -6,7 +6,11 @@ const AuthContext = createContext();
 function reducer(state, action) {
     switch(action.type) {
         case "login":
-            return {...state, user: action.payload, isAuthenticated: true};
+            return {
+                ...state, 
+                user: action.payload, 
+                isAuthenticated: true
+            };
         
         case "logout":
             return initialValue;
@@ -15,19 +19,15 @@ function reducer(state, action) {
     }
 }
 
+// Initial state
 const initialValue= {
     user: null,
     isAuthenticated: false,
 }
 
-const fakeUser = {
-    userName: "diogo",
-    email: "diogo@example.com",
-    password: "qwerty",
-    avatar: "https://i.pravatar.cc/100?u=zz"
-}
+const fakeUser = JSON.parse(import.meta.env.VITE_FAKE_USER);
 
-// Provider
+// Provider component
 function AuthProvider({ children }) {
     const [{user, isAuthenticated}, dispatch] = useReducer(reducer, initialValue);
  
@@ -35,7 +35,8 @@ function AuthProvider({ children }) {
         if (email === fakeUser.email && password === fakeUser.password) {
             dispatch({ 
                 type: "login", 
-                payload: fakeUser });
+                payload: fakeUser 
+            });
         }
     }
 
@@ -43,17 +44,19 @@ function AuthProvider({ children }) {
         dispatch({ type: "logout" });
     }
 
+    // Assigning values to provider
     return <AuthContext.Provider value={{
         user,
         isAuthenticated,
         login,
         logout
-    }}>
+    }}
+            >
         {children}
         </AuthContext.Provider>
 }
 
-// Custom Hook
+// Custom hook
 function useAuth() {
     const context = useContext(AuthContext);
     

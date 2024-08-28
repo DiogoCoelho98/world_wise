@@ -19,7 +19,9 @@ export default function App() {
 
   return (
     <AuthProvider>
+
       <CitiesProvider>
+
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home/>}></Route>
@@ -28,11 +30,15 @@ export default function App() {
             <Route path="/login" element={<Login/>}></Route>
             
             <Route path="/app" element={
-              <ProtectedRoute>
-                <AppLayout/>
-              </ProtectedRoute>
-            }>
-                <Route index element={<Navigate to="cities" replace/>}/>
+                <ProtectedRoute>
+                  <AppLayout/>
+                </ProtectedRoute>
+              }
+            >
+                <Route index element={
+                    <Navigate to="cities" replace/>
+                  }
+                />
                 <Route path="cities" element={<CityList/>}/>
                 <Route path="cities/:id" element={<City />}/>
                 <Route path="countries" element={<CountriesList/>}/>
@@ -42,7 +48,9 @@ export default function App() {
             <Route path="*" element={<NotFound/>}></Route>
           </Routes>
         </BrowserRouter>
+        
       </CitiesProvider>
+
     </AuthProvider>
   )
 }

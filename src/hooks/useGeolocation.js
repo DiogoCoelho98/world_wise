@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-// Custom hook to access geolocation using async/await
+// Custom hook to access geolocation
 export function useGeolocation(defaultPosition = null) {
   const [position, setPosition] = useState(defaultPosition);
   const [isLoading, setIsLoading] = useState(false);
@@ -9,12 +9,13 @@ export function useGeolocation(defaultPosition = null) {
   async function getPosition() {
     if (!navigator.geolocation) {
       setError("Your browser does not support geolocation");
+
       return;
     }
 
-    setIsLoading(true);
-
     try {
+      setIsLoading(true);
+      setError("");
       const pos = await new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject);
       });
@@ -23,8 +24,8 @@ export function useGeolocation(defaultPosition = null) {
         lat: pos.coords.latitude,
         lng: pos.coords.longitude,
       });
-    } catch (error) {
-      setError(error.message);
+    } catch (err) {
+      setError(err.message);
     } finally {
       setIsLoading(false);
     }
