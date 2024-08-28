@@ -23,8 +23,8 @@ Ensure you have Node.js and npm installed on your machine.
 ### Installation
 Clone the repository to your local machine and install the dependencies:
 ```bash
-git clone https://github.com/YourUsername/WorldWise.git
-cd WorldWise
+git clone https://github.com/DiogoCoelho98/world_wise.git
+cd world_wise
 ```
 ```
 npm install
