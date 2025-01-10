@@ -7,12 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "server": "json-server data/cities.json --port 8000"
+    "preview": "vite preview"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
-    "json-server": "^1.0.0-beta.1",
     "leaflet": "^1.9.4",
     "react": "^18.3.1",
     "react-datepicker": "^7.3.0",
