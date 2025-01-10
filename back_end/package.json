@@ -1,0 +1,19 @@
+{
+  "name": "world_wise_backend",
+  "version": "1.0.0",
+  "description": "Provides API endpoints for cities data",
+  "main": "server.js",
+  "scripts": {
+    "start": "json-server data/cities.json --port 8000"
+  },
+  "keywords": [
+    "backend",
+    "json-server",
+    "cities"
+  ],
+  "author": "Diogo",
+  "license": "ISC",
+  "dependencies": {
+    "json-server": "^1.0.0-beta.1"
+  }
+}

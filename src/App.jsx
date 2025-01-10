@@ -19,40 +19,37 @@ const AppLayout = lazy(() => import("./pages/AppLayout.jsx"));
 const NotFound = lazy(() => import("./pages/NotFound.jsx"));
 
 export default function App() {
-
   return (
     <AuthProvider>
-
       <CitiesProvider>
-
         <BrowserRouter>
-          <Suspense fallback={<SpinnerFullPage/>}>
+          <Suspense fallback={<SpinnerFullPage />}>
             <Routes>
-              <Route path="/" element={<Home/>}></Route>
-              <Route path="/pricing" element={<Pricing/>}></Route>
-              <Route path="/product" element={<Product/>}></Route>
-              <Route path="/login" element={<Login/>}></Route>
-              
-              <Route path="/app" element={
+              <Route path="/" element={<Home />}></Route>
+              <Route path="/pricing" element={<Pricing />}></Route>
+              <Route path="/product" element={<Product />}></Route>
+              <Route path="/login" element={<Login />}></Route>
+
+              <Route
+                path="/app"
+                element={
                   <ProtectedRoute>
-                    <AppLayout/>
+                    <AppLayout />
                   </ProtectedRoute>
                 }
               >
-                  <Route index element={<Navigate to="cities" replace/>}/>
-                  <Route path="cities" element={<CityList/>}/>
-                  <Route path="cities/:id" element={<City />}/>
-                  <Route path="countries" element={<CountriesList/>}/>
-                  <Route path="form" element={<Form/>}/>
-                </Route>
-              
-              <Route path="*" element={<NotFound/>}></Route>
+                <Route index element={<Navigate to="cities" replace />} />
+                <Route path="cities" element={<CityList />} />
+                <Route path="cities/:id" element={<City />} />
+                <Route path="countries" element={<CountriesList />} />
+                <Route path="form" element={<Form />} />
+              </Route>
+
+              <Route path="*" element={<NotFound />}></Route>
             </Routes>
           </Suspense>
         </BrowserRouter>
-        
       </CitiesProvider>
-
     </AuthProvider>
-  )
+  );
 }
