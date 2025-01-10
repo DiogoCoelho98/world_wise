@@ -25,3 +25,6 @@ dist-ssr
 
 # Enviroment files
 .env
+
+# Ignore the back_end directory
+back_end/
