@@ -4,7 +4,7 @@
   "description": "Provides API endpoints for cities data",
   "main": "server.js",
   "scripts": {
-    "start": "json-server data/cities.json --port 8000"
+    "start": "json-server data/cities.json --port $PORT"
   },
   "keywords": [
     "backend",

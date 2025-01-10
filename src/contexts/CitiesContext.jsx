@@ -6,7 +6,7 @@ import {
   useCallback,
 } from "react";
 
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = import.meta.env.VITE_BASE_URL || "http://localhost:8000";
 
 // Create context
 const CitiesContext = createContext();
