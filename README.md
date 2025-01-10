@@ -36,6 +36,7 @@ VITE_API_KEY=your_api_key_here
 VITE_FAKE_USER={"userName":"your_username","email":"your_email","password":"your_password","avatar":"https://i.pravatar.cc/100?u=zz"}
 VITE_BASE_URL=https://world-wise-back-end.onrender.com
 ```
+**Note:** You can log in using my credentials. Email: diogo@example.com and Password: qwerty
 ### Starting the Server
 1. Run the server
 ```
