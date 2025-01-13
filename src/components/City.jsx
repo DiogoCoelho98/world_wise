@@ -15,17 +15,16 @@ const formatDate = (date) =>
   }).format(new Date(date));
 
 export default function City() {
-    const { id } = useParams();
-    const { getCity, currentCity, isLoading } = useCities();
-   
+  const { id } = useParams();
+  const { getCity, currentCity, isLoading } = useCities();
+
   useEffect(() => {
     getCity(id);
-  }, [id, getCity])
+  }, [id, getCity]);
 
   const { cityName, emoji, date, notes } = currentCity;
 
-  if (isLoading) return <Spinner />
-
+  if (isLoading) return <Spinner />;
 
   return (
     <div className={styles.city}>
@@ -65,4 +64,3 @@ export default function City() {
     </div>
   );
 }
-

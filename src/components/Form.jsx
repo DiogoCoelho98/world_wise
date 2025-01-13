@@ -12,130 +12,134 @@ import Message from "./Message.jsx";
 import Spinner from "./Spinner.jsx";
 
 export function convertToEmoji(countryCode) {
-    const codePoints = countryCode
-      .toUpperCase()
-      .split("")
-      .map((char) => 127397 + char.charCodeAt());
-    return String.fromCodePoint(...codePoints);
-  }
+  const codePoints = countryCode
+    .toUpperCase()
+    .split("")
+    .map((char) => 127397 + char.charCodeAt());
+  return String.fromCodePoint(...codePoints);
+}
 
 export default function Form() {
-    const [cityName, setCityName] = useState("");
-    const [country, setCountry] = useState("");
-    const [emoji, setEmoji] = useState("");
-    const [notes, setNotes] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const [date, setDate] = useState(new Date());
+  const [cityName, setCityName] = useState("");
+  const [country, setCountry] = useState("");
+  const [emoji, setEmoji] = useState("");
+  const [notes, setNotes] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [date, setDate] = useState(new Date());
 
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const [lat, lng] = useURLGeoposition();
 
-    const [ lat, lng ] = useURLGeoposition();
+  const { createCity, isLoading } = useCities();
 
-    const { createCity, isLoading } = useCities();
-    
-    // Get city name with lat/lng
-    useEffect(() => {
-        async function getCity() {  
-            if (!lat && !lng) return;
+  // Get city name with lat/lng
+  useEffect(() => {
+    async function getCity() {
+      if (!lat && !lng) return;
 
-            try {
-                setLoading(true);
-                setError("");
+      try {
+        setLoading(true);
+        setError("");
 
-                const apiKey = import.meta.env.VITE_API_KEY;
-                const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode?latitude=${lat}&longitude=${lng}&key=${apiKey}`);
-                    if (!res.ok) throw new Error("Error while fetching data");
-                    
-                    const data = await res.json();
-                    if (!data.countryCode) throw new Error("That doesn't seem to be a city. Click somewhere else");
+        const apiKey = import.meta.env.VITE_API_KEY;
+        const res = await fetch(
+          `https://api.bigdatacloud.net/data/reverse-geocode?latitude=${lat}&longitude=${lng}&key=${apiKey}`
+        );
+        if (!res.ok) throw new Error("Error while fetching data");
 
-                    setCityName(data.city || data.locality);
-                    setCountry(data.countryName);
-                    setEmoji(convertToEmoji(data.countryCode));
-                }
-                catch(err) {
-                    setError(err.message);
-                } finally {
-                    setLoading(false);
-                }
-        }
-        getCity();
-    }, [lat, lng]);
+        const data = await res.json();
+        if (!data.countryCode)
+          throw new Error(
+            "That doesn't seem to be a city. Click somewhere else"
+          );
 
-    async function handleSubmit(e) {
-        e.preventDefault();
-
-        if (!cityName || !date) return;
-
-        const newCity = {
-            cityName,
-            country,
-            emoji,
-            date,
-            notes,
-            position: {
-                lat,
-                lng
-            }
-        };
-
-        // Ensure that createCity() runs and then navigate
-        await createCity(newCity);
-        navigate("/app/cities");
-
-        setCityName("");
-        setNotes("");
+        setCityName(data.city || data.locality);
+        setCountry(data.countryName);
+        setEmoji(convertToEmoji(data.countryCode));
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
     }
+    getCity();
+  }, [lat, lng]);
 
-    if (loading) return <Spinner />
-    if (!lat && !lng) return <Message message="Start by clicking somewhere on the map"/>
-    if (error) return <Message message={error}/>
+  async function handleSubmit(e) {
+    e.preventDefault();
 
-    return(
-        <form className={`${styles.form} 
-        ${isLoading ? styles.loading: ""}`} 
-        onSubmit={handleSubmit}
-        >
-            <div className={styles.row}>
-                <label htmlFor="cityName">City Name</label>
-                <input type="text" id="cityName" 
-                onChange={e => setCityName(e.target.value)} 
-                value={cityName} 
-                disabled
-            />
-                <span className={styles.flag}>{emoji}</span>
-            </div>
+    if (!cityName || !date) return;
 
-            <div className={styles.row}>
-                <label htmlFor="date">
-                    When did you go to the city?
-                </label>
-                <DatePicker 
-                    selected={date} 
-                    onChange={date => setDate(date)} 
-                    dateFormat="dd/MM/yyyy" 
-                    id="date"
-                />
-            </div>
+    const newCity = {
+      cityName,
+      country,
+      emoji,
+      date,
+      notes,
+      position: {
+        lat,
+        lng,
+      },
+    };
 
+    // Ensure that createCity() runs and then navigate
+    await createCity(newCity);
+    navigate("/app/cities");
 
-            <div className={styles.row}>
-                <label htmlFor="notes">
-                    Notes about your trip to
-                </label>
-                <input type="text" id="notes" 
-                onChange={e => setNotes(e.target.value)} 
-                value={notes} 
-                required
-            />
-            </div>
+    setCityName("");
+    setNotes("");
+  }
 
-            <div className={styles.buttons}>
-                <Button type="primary">Add</Button>
-                <BackButton />
-            </div>
-        </form>
-    )
+  if (loading) return <Spinner />;
+  if (!lat && !lng)
+    return <Message message="Start by clicking somewhere on the map" />;
+  if (error) return <Message message={error} />;
+
+  return (
+    <form
+      className={`${styles.form} 
+        ${isLoading ? styles.loading : ""}`}
+      onSubmit={handleSubmit}
+    >
+      <div className={styles.row}>
+        <label htmlFor="cityName">City Name</label>
+        <input
+          type="text"
+          id="cityName"
+          onChange={(e) => setCityName(e.target.value)}
+          value={cityName}
+          disabled
+        />
+        <span className={styles.flag}>{emoji}</span>
+      </div>
+
+      <div className={styles.row}>
+        <label htmlFor="date">When did you go to the city?</label>
+        <DatePicker
+          selected={date}
+          onChange={(date) => setDate(date)}
+          dateFormat="dd/MM/yyyy"
+          id="date"
+        />
+      </div>
+
+      <div className={styles.row}>
+        <label htmlFor="notes">Notes about your trip to</label>
+        <input
+          type="text"
+          id="notes"
+          onChange={(e) => setNotes(e.target.value)}
+          value={notes}
+          required
+        />
+      </div>
+
+      <div className={styles.buttons}>
+        <Button type="primary">Add</Button>
+        <BackButton />
+      </div>
+    </form>
+  );
 }
