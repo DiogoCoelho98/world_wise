@@ -34,7 +34,9 @@ Create a `.env` file in the root directory of the project and add the following 
 ```
 VITE_API_KEY=your_api_key_here
 VITE_FAKE_USER={"userName":"your_username","email":"your_email","password":"your_password","avatar":"https://i.pravatar.cc/100?u=zz"}
+VITE_BASE_URL=https://world-wise-back-end.onrender.com
 ```
+**Note:** You can log in using my credentials. Email: diogo@example.com and Password: qwerty
 ### Starting the Server
 1. Run the server
 ```
@@ -42,10 +44,23 @@ npm run dev
 ```
 2. View WorldWise in your browser
 - Open your web browser and navigate to http://localhost:5173/
+
+### Deployment
+WorldWise is hosted as follows:
+- Frontend: Deployed on Netlify.
+- Backend: Deployed on Render.
+
+To modify or redeploy:
+1. Ensure your .env variables are set on the respective platforms (Netlify for the frontend and Render for the backend).
+2. Update and push changes to the appropriate repositories.
+
 ### Usage
 - Explore WorldWise: Browse a map of the world and add cities that your traveled to.
 - Add/Delete Cities: Log in to create new cities.
 - Leave Notes: Share your experiences and favourite moments by adding notes.
+
+## Project Link
+**https://world-diogo.netlify.app**
 
 ## Contacts
 - **https://www.linkedin.com/in/diogo-borges-coelho/**
